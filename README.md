@@ -5,7 +5,8 @@
 ![npm version](https://img.shields.io/npm/v/ngrx-generator.svg)
 ![License](https://img.shields.io/npm/l/ngrx-generator.svg)
 
-ngrx generator
+![](https://raw.githubusercontent.com/NetanelBasal/ngrx-generator/master/demo.png)
+
 
 ## Getting Started
 
