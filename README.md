@@ -5,7 +5,7 @@
 ![npm version](https://img.shields.io/npm/v/ngrx-generator.svg)
 ![License](https://img.shields.io/npm/l/ngrx-generator.svg)
 
-![](https://s22.postimg.org/5nlkpozi9/demo.gif)
+![Demo](https://s22.postimg.org/5nlkpozi9/demo.gif)
 
 
 ## Getting Started
@@ -38,6 +38,8 @@ you can add the following line to your `package.json`
  }
 }
 ```
+
+![Demo](https://s23.postimg.org/8urbz1xjv/demo2.gif)
 
 ## License
 
