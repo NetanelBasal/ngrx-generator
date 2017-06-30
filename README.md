@@ -5,7 +5,7 @@
 ![npm version](https://img.shields.io/npm/v/ngrx-generator.svg)
 ![License](https://img.shields.io/npm/l/ngrx-generator.svg)
 
-![](https://postimg.org/image/ra0l6py2l/)
+![](https://s22.postimg.org/5nlkpozi9/demo.gif)
 
 
 ## Getting Started
