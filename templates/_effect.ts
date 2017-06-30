@@ -3,6 +3,9 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { {{properCase name }}Service } from '{{position "services"}}/{{ lowerCase name }}.service';
 import * as {{ camelCase name }} from '{{position "actions"}}/{{ lowerCase name }}.actions';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class {{ properCase name }}Effects {

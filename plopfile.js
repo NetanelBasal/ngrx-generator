@@ -104,8 +104,8 @@ function serviceGenerator(plop) {
 }
 
 function wholeGenerator(plop) {
-    plop.setGenerator('The Whole package', 
-      Object.assign({}, defaults('Package'), {
+    plop.setGenerator('The whole shebang', 
+      Object.assign({}, defaults('Whole'), {
         description: 'Actions, Reducer, Service and Effect',
         actions: [].concat(actions, reducer, effect, service)
       })
@@ -133,7 +133,7 @@ module.exports = function (plop) {
     }
     return '.';
   });
-  
+
   wholeGenerator(plop);
   actionGenerator(plop);
   reducerGenerator(plop);

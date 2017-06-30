@@ -1,6 +1,6 @@
 {
   "name": "ngrx-generator",
-  "version": "1.0.0-beta",
+  "version": "1.0.1-beta",
   "description": "ngrx templates generator",
   "main": "index.js",
   "scripts": {
