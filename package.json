@@ -1,0 +1,32 @@
+{
+  "name": "ngrx-generator",
+  "version": "1.0.0-beta",
+  "description": "ngrx templates generator",
+  "main": "index.js",
+  "scripts": {
+    "plop": "plop"
+  },
+  "keywords": [
+    "ngrx",
+    "ngrx templates",
+    "ngrx generator",
+    "ngrx/store",
+    "ngrx/effects"
+  ],
+  "author": "Netanel Basal",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NetanelBasal/ngrx-generator"
+  },
+  "bin": {
+    "ngrx-gen": "index.js"
+  },
+  "dependencies": {
+    "find-package-json": "^1.0.0",
+    "lodash.get": "^4.4.2",
+    "npm-run": "^4.1.2",
+    "plop": "^1.8.0",
+    "shelljs": "^0.7.8"
+  }
+}
