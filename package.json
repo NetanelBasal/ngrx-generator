@@ -1,6 +1,6 @@
 {
   "name": "ngrx-generator",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "ngrx templates generator",
   "main": "index.js",
   "scripts": {
@@ -26,6 +26,7 @@
     "find-package-json": "^1.0.0",
     "lodash.get": "^4.4.2",
     "npm-run": "^4.1.2",
+    "pkg-dir": "^2.0.0",
     "plop": "^1.8.0",
     "shelljs": "^0.7.8"
   }

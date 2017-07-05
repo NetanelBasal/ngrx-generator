@@ -3,6 +3,7 @@ const pkg = require('./package.json');
 const finder = require('find-package-json');
 const pjson = finder().next().value;
 const nodePath = require('path');
+const pkgDir = require('pkg-dir');
 
 function validate(name, value) {
   if ((/.+/).test(value)) {
@@ -28,7 +29,7 @@ const defaults = function(name) {
 const actions = [
   {
     type: 'add',
-    path: '{{ pkg "ngrxGen.actions" path "actions" }}/{{dashCase name}}.actions.ts',
+    path: '{{ pkg "ngrxGen.actions" "actions" }}/{{dashCase name}}.actions.ts',
     templateFile: './templates/_actions.ts'
   }
 ];
@@ -46,12 +47,12 @@ function actionGenerator(plop) {
 const reducer = [
   {
     type: 'add',
-    path: '{{ pkg "ngrxGen.reducers" path "reducers" }}/{{dashCase name}}.reducer.ts',
+    path: '{{ pkg "ngrxGen.reducers" "reducers" }}/{{dashCase name}}.reducer.ts',
     templateFile: './templates/_reducer.ts'
   }, 
   {
     type: 'add',
-    path: '{{ pkg "ngrxGen.reducers" path "reducers"}}/{{dashCase name}}.reducer.spec.ts',
+    path: '{{ pkg "ngrxGen.reducers" "reducers"}}/{{dashCase name}}.reducer.spec.ts',
     templateFile: './templates/_reducer.spec.ts'
   }
 ]
@@ -66,11 +67,11 @@ function reducerGenerator(plop) {
 const effect = [
   {
     type: 'add',
-    path: '{{ pkg "ngrxGen.effects" path "effects" }}/{{dashCase name}}.effects.ts',
+    path: '{{ pkg "ngrxGen.effects" "effects" }}/{{dashCase name}}.effects.ts',
     templateFile: './templates/_effect.ts'
   }, {
     type: 'add',
-    path: '{{ pkg "plop.effects" path "effects" }}/{{dashCase name}}.effects.spec.ts',
+    path: '{{ pkg "plop.effects" "effects" }}/{{dashCase name}}.effects.spec.ts',
     templateFile: './templates/_effects.spec.ts'
   }
 ];
@@ -86,11 +87,11 @@ function effectGenerator(plop) {
 const service = [
   {
     type: 'add',
-    path: '{{ pkg "ngrxGen.services" path "services" }}/{{dashCase name}}.service.ts',
+    path: '{{ pkg "ngrxGen.services" "services" }}/{{dashCase name}}.service.ts',
     templateFile: './templates/_service.ts'
   }, {
     type: 'add',
-    path: '{{ pkg "plop.services" path "services" }}/{{dashCase name}}.service.spec.ts',
+    path: '{{ pkg "plop.services" "services" }}/{{dashCase name}}.service.spec.ts',
     templateFile: './templates/_service.spec.ts'
   }
 ];
@@ -114,7 +115,12 @@ function wholeGenerator(plop) {
 
 module.exports = function (plop) {
 
-  plop.addHelper('pkg', (packageJSONPath, path, name) => {
+  plop.addHelper('pkg', (packageJSONPath, name) => {
+  
+    if(get(pjson, 'ngrxGen.basePath')) {
+      const basePath = nodePath.resolve(get(pjson, 'ngrxGen.basePath'));
+      return nodePath.resolve(pkgDir.sync(process.cwd()), get(pjson, 'ngrxGen.basePath'), name);
+    }
 
    if(get(pjson, 'ngrxGen.seperateDirectory')) {
      return nodePath.resolve(process.cwd(), name);
