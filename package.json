@@ -1,6 +1,6 @@
 {
   "name": "ngrx-generator",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "ngrx templates generator",
   "main": "index.js",
   "scripts": {
@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "find-package-json": "^1.0.0",
+    "inquirer-directory": "^2.1.0",
     "lodash.get": "^4.4.2",
     "npm-run": "^4.1.2",
     "pkg-dir": "^2.0.0",
