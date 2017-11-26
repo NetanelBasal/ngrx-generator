@@ -22,8 +22,13 @@
   "bin": {
     "ngrx-gen": "index.js"
   },
+  "ngrxGen": {
+    "basePath": "./test",
+    "separateDirectory": false
+  },
   "dependencies": {
     "find-package-json": "^1.0.0",
+    "lodash.camelcase": "^4.3.0",
     "lodash.get": "^4.4.2",
     "npm-run": "^4.1.2",
     "pkg-dir": "^2.0.0",
