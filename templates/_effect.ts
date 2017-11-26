@@ -18,7 +18,7 @@ export class {{ properCase name }}Effects {
       .ofType({{ camelCase name }}.LOAD)
       .switchMap(payload => this.{{ camelCase name }}Service.get()
         // If successful, dispatch success action with result
-        .map(res => ({ type: {{ camelCase name }}.LOAD_SUCCESS, payload: res.json() }))
+        .map(res => ({ type: {{ camelCase name }}.LOAD_SUCCESS, payload: res }))
         // If request fails, dispatch failed action
         .catch(() => Observable.of({ type: {{ camelCase name }}.LOAD_FAIL}))
       );
