@@ -31,7 +31,7 @@ you can add the following line to your `package.json`
 {
  "ngrxGen": {
    "basePath": "./src/app", // optional - this should be relative to your root package.json file
-   "seperateDirectory": "true"
+   "separateDirectory": true
  }
 }
 ```
