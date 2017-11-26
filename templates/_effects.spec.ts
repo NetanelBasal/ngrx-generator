@@ -2,33 +2,33 @@ import "rxjs/add/observable/of";
 import "rxjs/add/observable/throw";
 import { EffectsRunner, EffectsTestingModule } from "@ngrx/effects/testing";
 import { fakeAsync, TestBed, tick } from "@angular/core/testing";
-import { {{titleCase name}}Effects } from "{{position "effects"}}/{{lowerCase name}}.effects";
-import { {{titleCase name}}Service } from "{{position "services"}}/{{lowerCase name}}.service";
+import { {{properCase name}}Effects } from "{{position "effects"}}/{{kebabCase name}}.effects";
+import { {{properCase name}}Service } from "{{position "services"}}/{{kebabCase name}}.service";
 import { Observable } from "rxjs/Observable";
 
-describe('{{titleCase name}}Effects', () => {
-  let runner, {{lowerCase name}}Effects, {{lowerCase name}}Service;
+describe('{{properCase name}}Effects', () => {
+  let runner, {{camelCase name}}Effects, {{camelCase name}}Service;
 
   beforeEach(() => TestBed.configureTestingModule({
     imports: [
       EffectsTestingModule
     ],
     providers: [
-      {{titleCase name}}Effects,
+      {{properCase name}}Effects,
       {
-        provide: {{titleCase name}}Service,
-        useValue: jasmine.createSpyObj('{{lowerCase name}}Service', ['get'])
+        provide: {{properCase name}}Service,
+        useValue: jasmine.createSpyObj('{{camelCase name}}Service', ['get'])
       }
     ]
   }));
 
   beforeEach(() => {
     runner = TestBed.get(EffectsRunner);
-    {{lowerCase name}}Effects = TestBed.get({{titleCase name}}Effects);
-    {{lowerCase name}}Service = TestBed.get({{titleCase name}}Service);
+    {{camelCase name}}Effects = TestBed.get({{properCase name}}Effects);
+    {{camelCase name}}Service = TestBed.get({{properCase name}}Service);
   });
 
-  describe('{{lowerCase name}}$', () => {
+  describe('{{camelCase name}}$', () => {
 
     it('should return a LOAD_SUCCESS action, on success', function () {
 

@@ -1,6 +1,6 @@
 import { TestBed, gtTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { {{ properCase name }}Service } from '{{position "services"}}/{{ lowerCase name }}.service';
+import { {{ properCase name }}Service } from '{{position "services"}}/{{ kebabCase name }}.service';
 
 describe('Service: {{ properCase name }}Service', () => {
 
@@ -14,7 +14,7 @@ describe('Service: {{ properCase name }}Service', () => {
       providers: [{{ properCase name }}Service]
     });
     injector = getTestBed();
-    service = injector.get({{ properCase name }});
+    service = injector.get({{ properCase name }}Service);
     httpMock = injector.get(HttpTestingController);
   });
 

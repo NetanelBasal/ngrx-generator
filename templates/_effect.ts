@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import { {{properCase name }}Service } from '{{position "services"}}/{{ lowerCase name }}.service';
-import * as {{ camelCase name }} from '{{position "actions"}}/{{ lowerCase name }}.actions';
+import { {{properCase name }}Service } from '{{position "services"}}/{{ kebabCase name }}.service';
+import * as {{ camelCase name }} from '{{position "actions"}}/{{ kebabCase name }}.actions';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';

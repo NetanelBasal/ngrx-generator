@@ -1,7 +1,7 @@
-import { reducer } from '{{position "reducers"}}/{{lowerCase name}}.reducer';
-import * as from{{ properCase name }} from '{{position "reducers"}}/{{lowerCase name}}.reducer';
+import { reducer } from '{{position "reducers"}}/{{kebabCase name}}.reducer';
+import * as from{{ properCase name }} from '{{position "reducers"}}/{{kebabCase name}}.reducer';
 
-describe('{{titleCase name}}Reducer', () => {
+describe('{{properCase name}}Reducer', () => {
 
   describe('undefined action', () => {
     it('should return the default state', () => {
