@@ -123,14 +123,16 @@ function wholeGenerator(plop) {
   );
 }
 
-// create each helper for basePath, flat directory or separate directories
 module.exports = function (plop) {
+
+  if(!get(pjson, options.basePath)) {
+    console.log('The option "ngrxGen.basePath" is not set inside your package.json, please update it'.red);
+    process.abort();
+  }
 
   plop.addHelper('pkg', (name, type) => {
     const basePath = (pkgDir.sync(process.cwd()), get(pjson, options.basePath));
-    return get(pjson, options.basePath) && !get(pjson, options.separateDirectory) ? nodePath.resolve(basePath, camelCase(name)) :
-      get(pjson, options.separateDirectory) ? nodePath.resolve(basePath, type) :
-      nodePath.resolve(process.cwd(), '.');
+    return get(pjson, options.separateDirectory) ? nodePath.resolve(basePath, type) : nodePath.resolve(basePath, camelCase(name));
   });
 
   plop.addHelper('position', function (name) {
