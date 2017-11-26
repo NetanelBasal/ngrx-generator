@@ -5,6 +5,7 @@ const finder = require('find-package-json');
 const pjson = finder().next().value;
 const nodePath = require('path');
 const pkgDir = require('pkg-dir');
+const fs = require('fs');
 
 const options = {
   basePath: "ngrxGen.basePath",
@@ -32,7 +33,7 @@ const defaults = function (name) {
  */
 const actions = [{
   type: 'add',
-  path: '{{ pkg name "actions" }}/{{kebabCase name}}.actions.ts',
+  path: '{{ basePath }}/{{ folder name "actions" }}/{{kebabCase name}}.actions.ts',
   templateFile: './templates/_actions.ts'
 }];
 
@@ -51,12 +52,12 @@ function actionGenerator(plop) {
  */
 const reducer = [{
     type: 'add',
-    path: '{{ pkg name "reducers" }}/{{kebabCase name}}.reducer.ts',
+    path: '{{ basePath }}/{{ folder name "reducers" }}/{{kebabCase name}}.reducer.ts',
     templateFile: './templates/_reducer.ts'
   },
   {
     type: 'add',
-    path: '{{ pkg name "reducers"}}/{{kebabCase name}}.reducer.spec.ts',
+    path: '{{ basePath }}/{{ folder name "reducers"}}/{{kebabCase name}}.reducer.spec.ts',
     templateFile: './templates/_reducer.spec.ts'
   }
 ]
@@ -74,11 +75,11 @@ function reducerGenerator(plop) {
  */
 const effect = [{
   type: 'add',
-  path: '{{ pkg name "effects" }}/{{kebabCase name}}.effects.ts',
+  path: '{{ basePath }}/{{ folder name "effects" }}/{{kebabCase name}}.effects.ts',
   templateFile: './templates/_effect.ts'
 }, {
   type: 'add',
-  path: '{{ pkg name "effects" }}/{{kebabCase name}}.effects.spec.ts',
+  path: '{{ basePath }}/{{ folder name "effects" }}/{{kebabCase name}}.effects.spec.ts',
   templateFile: './templates/_effects.spec.ts'
 }];
 
@@ -95,11 +96,11 @@ function effectGenerator(plop) {
  */
 const service = [{
   type: 'add',
-  path: '{{ pkg name "services" }}/{{kebabCase name}}.service.ts',
+  path: '{{ basePath }}/{{ folder name "services" }}/{{kebabCase name}}.service.ts',
   templateFile: './templates/_service.ts'
 }, {
   type: 'add',
-  path: '{{ pkg name "services" }}/{{kebabCase name}}.service.spec.ts',
+  path: '{{ basePath }}/{{ folder name "services" }}/{{kebabCase name}}.service.spec.ts',
   templateFile: './templates/_service.spec.ts'
 }];
 
@@ -112,13 +113,49 @@ function serviceGenerator(plop) {
 }
 
 /*
+* Create file index.ts if doesn't exist
+*/
+
+const indexAdd = [{
+  type: "add",
+  path: "{{ basePath }}/index.ts",
+  templateFile: './templates/_index.ts'
+}]
+
+/*
+* Modify index.ts with new generated files
+*/
+
+const indexModify = [{
+  type: "modify",
+  path: "{{ basePath }}/index.ts",
+  pattern: /(\/\/ -- IMPORT REDUCER --)/gi,
+  template: "$1\r\nimport * as {{ camelCase name }} from './{{ folder name 'reducers' }}/{{ kebabCase name }}.reducer';"
+}, {
+  type: "modify",
+  path: "{{ basePath }}/index.ts",
+  pattern: /(\/\/ -- ADD REDUCER --)/gi,
+  template: "$1\r\n\t{{ camelCase name }}: {{ camelCase name }}.reducer,"
+}, {
+  type: "modify",
+  path: "{{ basePath }}/index.ts",
+  pattern: /(\/\/ -- IMPORT STATE --)/gi,
+  template: "$1\r\n\t{{ camelCase name }}: {{ camelCase name }}.State,"
+}]
+
+/*
  * All generators
  */
 function wholeGenerator(plop) {
+  let actionArray = [].concat(actions, reducer, effect, service)
+  fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'index.ts')) 
+    ? actionArray = actionArray.concat(indexModify)
+    : actionArray = actionArray.concat(indexAdd);
+
   plop.setGenerator('The whole shebang',
     Object.assign({}, defaults('Whole'), {
       description: 'Actions, Reducer, Service and Effect',
-      actions: [].concat(actions, reducer, effect, service)
+      actions: actionArray
     })
   );
 }
@@ -130,14 +167,11 @@ module.exports = function (plop) {
     process.abort();
   }
 
-  plop.addHelper('pkg', (name, type) => {
-    const basePath = (pkgDir.sync(process.cwd()), get(pjson, options.basePath));
-    return get(pjson, options.separateDirectory) ? nodePath.resolve(basePath, type) : nodePath.resolve(basePath, camelCase(name));
-  });
+  plop.addHelper('basePath', () => nodePath.resolve(get(pjson, options.basePath)));
 
-  plop.addHelper('position', function (name) {
-    return get(pjson, options.separateDirectory) ? '../' + name : '.'
-  });
+  plop.addHelper('folder', (name, type) => get(pjson, options.separateDirectory) ? type : camelCase(name));
+
+  plop.addHelper('position', (name) => get(pjson, options.separateDirectory) ? '../' + name : '.');
 
   wholeGenerator(plop);
   actionGenerator(plop);

@@ -1,6 +1,6 @@
 {
   "name": "ngrx-generator",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "ngrx templates generator",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/NetanelBasal/ngrx-generator"
+  },
+  "ngrxGen": {
+    "basePath": "./store",
+    "separateDirectory": false
   },
   "bin": {
     "ngrx-gen": "index.js"
