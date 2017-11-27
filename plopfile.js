@@ -126,21 +126,25 @@ const indexAdd = [{
 * Modify index.ts with new generated files
 */
 
-const indexModify = [{
-  type: "modify",
-  path: "{{ basePath }}/index.ts",
-  pattern: /(\/\/ -- IMPORT REDUCER --)/gi,
-  template: "$1\r\nimport * as {{ camelCase name }} from './{{ folder name 'reducers' }}/{{ kebabCase name }}.reducer';"
-}, {
-  type: "modify",
-  path: "{{ basePath }}/index.ts",
-  pattern: /(\/\/ -- ADD REDUCER --)/gi,
-  template: "$1\r\n\t{{ camelCase name }}: {{ camelCase name }}.reducer,"
-}, {
-  type: "modify",
-  path: "{{ basePath }}/index.ts",
-  pattern: /(\/\/ -- IMPORT STATE --)/gi,
-  template: "$1\r\n\t{{ camelCase name }}: {{ camelCase name }}.State,"
+// const updateIndex = [{
+//   type: "modify",
+//   path: "{{ basePath }}/index.ts",
+//   pattern: /(\/\/ -- IMPORT REDUCER --)/gi,
+//   template: "$1\r\nimport * as {{ camelCase name }} from './{{ folder name 'reducers' }}/{{ kebabCase name }}.reducer';"
+// }, {
+//   type: "modify",
+//   path: "{{ basePath }}/index.ts",
+//   pattern: /(\/\/ -- ADD REDUCER --)/gi,
+//   template: "$1\r\n\t{{ camelCase name }}: {{ camelCase name }}.reducer,"
+// }, {
+//   type: "modify",
+//   path: "{{ basePath }}/index.ts",
+//   pattern: /(\/\/ -- IMPORT STATE --)/gi,
+//   template: "$1\r\n\t{{ camelCase name }}: {{ camelCase name }}.State,"
+// }]
+const updateIndex = [{
+  type: "update index",
+  path: "{{ basePath }}/index.ts"
 }]
 
 /*
@@ -149,7 +153,7 @@ const indexModify = [{
 function wholeGenerator(plop) {
   let actionArray = [].concat(actions, reducer, effect, service)
   fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'index.ts')) 
-    ? actionArray = actionArray.concat(indexModify)
+    ? actionArray = actionArray.concat(updateIndex)
     : actionArray = actionArray.concat(indexAdd);
 
   plop.setGenerator('The whole shebang',
@@ -161,22 +165,41 @@ function wholeGenerator(plop) {
 }
 
 module.exports = function (plop) {
-
   if(!get(pjson, options.basePath)) {
     console.log('The option "ngrxGen.basePath" is not set inside your package.json, please update it'.red);
     process.abort();
   }
-
+  
   plop.addHelper('basePath', () => nodePath.resolve(get(pjson, options.basePath)));
-
+  
   plop.addHelper('folder', (name, type) => get(pjson, options.separateDirectory) ? type : camelCase(name));
-
+  
   plop.addHelper('position', (name) => get(pjson, options.separateDirectory) ? '../' + name : '.');
-
+  
+  plop.setActionType('update index', (data, config) => {
+    const makeDestPath = p => nodePath.resolve(plop.getDestBasePath(), p);
+    const fileDestPath = makeDestPath(plop.renderString(config.path));
+    try {
+      let fileData = fs.readFileSync(fileDestPath, 'utf-8');
+      const importFile = "$1\r\nimport * as {{ camelCase name }} from './{{ folder name 'reducers' }}/{{ kebabCase name }}.reducer';";
+      const importState = "$1\r\n\t{{ camelCase name }}: {{ camelCase name }}.State,";
+      const addReducer = "$1\r\n\t{{ camelCase name }}: {{ camelCase name }}.reducer,";
+      fileData = fileData
+        .replace(/(\/\/ -- IMPORT REDUCER --)/, plop.renderString(importFile, data))
+        .replace(/(\/\/ -- IMPORT STATE --)/, plop.renderString(importState, data))
+        .replace(/(\/\/ -- ADD REDUCER --)/, plop.renderString(addReducer, data));
+      fs.writeFileSync(fileDestPath, fileData);
+      return fileDestPath.replace(nodePath.resolve(plop.getDestBasePath()), '');
+    } catch(err) {
+      throw typeof err === 'string' ? err : err.message || JSON.stringify(err);
+    }
+  })
+  
   wholeGenerator(plop);
   actionGenerator(plop);
   reducerGenerator(plop);
   effectGenerator(plop);
   serviceGenerator(plop);
-
+  
+  console.log(plop.getActionTypeList())
 };
