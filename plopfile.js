@@ -37,16 +37,6 @@ const actions = [{
   templateFile: './templates/_actions.ts'
 }];
 
-
-
-function actionGenerator(plop) {
-  plop.setGenerator('Action',
-    Object.assign({}, defaults('Action'), {
-      actions: actions
-    })
-  );
-}
-
 /*
  * Reducer generator
  */
@@ -62,14 +52,6 @@ const reducer = [{
   }
 ]
 
-function reducerGenerator(plop) {
-  plop.setGenerator('Reducer',
-    Object.assign({}, defaults('Reducer'), {
-      actions: reducer
-    })
-  );
-}
-
 /*
  * Effect generator
  */
@@ -83,14 +65,6 @@ const effect = [{
   templateFile: './templates/_effects.spec.ts'
 }];
 
-function effectGenerator(plop) {
-  plop.setGenerator('Effect',
-    Object.assign({}, defaults('Effect'), {
-      actions: effect
-    })
-  );
-}
-
 /*
  * Service generator
  */
@@ -103,14 +77,6 @@ const service = [{
   path: '{{ basePath }}/{{ folder name "services" }}/{{kebabCase name}}.service.spec.ts',
   templateFile: './templates/_service.spec.ts'
 }];
-
-function serviceGenerator(plop) {
-  plop.setGenerator('Service',
-    Object.assign({}, defaults('Service'), {
-      actions: service
-    })
-  );
-}
 
 /*
 * Create file index.ts if doesn't exist
@@ -126,22 +92,6 @@ const indexAdd = [{
 * Modify index.ts with new generated files
 */
 
-// const updateIndex = [{
-//   type: "modify",
-//   path: "{{ basePath }}/index.ts",
-//   pattern: /(\/\/ -- IMPORT REDUCER --)/gi,
-//   template: "$1\r\nimport * as {{ camelCase name }} from './{{ folder name 'reducers' }}/{{ kebabCase name }}.reducer';"
-// }, {
-//   type: "modify",
-//   path: "{{ basePath }}/index.ts",
-//   pattern: /(\/\/ -- ADD REDUCER --)/gi,
-//   template: "$1\r\n\t{{ camelCase name }}: {{ camelCase name }}.reducer,"
-// }, {
-//   type: "modify",
-//   path: "{{ basePath }}/index.ts",
-//   pattern: /(\/\/ -- IMPORT STATE --)/gi,
-//   template: "$1\r\n\t{{ camelCase name }}: {{ camelCase name }}.State,"
-// }]
 const updateIndex = [{
   type: "update index",
   path: "{{ basePath }}/index.ts"
@@ -150,15 +100,15 @@ const updateIndex = [{
 /*
  * All generators
  */
-function wholeGenerator(plop) {
+function createGenerator(plop) {
   let actionArray = [].concat(actions, reducer, effect, service)
   fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'index.ts')) 
     ? actionArray = actionArray.concat(updateIndex)
     : actionArray = actionArray.concat(indexAdd);
 
-  plop.setGenerator('The whole shebang',
+  plop.setGenerator('Create',
     Object.assign({}, defaults('Whole'), {
-      description: 'Actions, Reducer, Service and Effect',
+      description: 'Generate Actions, Reducer, Service and Effect',
       actions: actionArray
     })
   );
@@ -195,11 +145,7 @@ module.exports = function (plop) {
     }
   })
   
-  wholeGenerator(plop);
-  actionGenerator(plop);
-  reducerGenerator(plop);
-  effectGenerator(plop);
-  serviceGenerator(plop);
-  
-  console.log(plop.getActionTypeList())
+  createGenerator(plop);
+  // renameGenerator(plop);
+  // deleteGenerator(plop);
 };
