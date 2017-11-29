@@ -9,12 +9,12 @@ and using the recommendations of the community, the generator has been improved.
 Install it via npm:
 
 ```shell
-npm install ngx-reduxor -g
+npm install ngx-reduxor --save-dev
 ```
 
 or with Yarn:
 ```shell
-yarn add global ngx-reduxor
+yarn add --dev ngx-reduxor
 ```
 
 ## Configuration
@@ -22,12 +22,16 @@ yarn add global ngx-reduxor
 in your package.json, add the following:
 
 ```
-{
+  ...
+  "scripts": {
+    "ngx-reduxor": "ngx-reduxor"
+  },
+  ...
   "ngxReduxor": {
     "basePath": "./src/app/store", // For example, you can set it everywhere
     "separateDirectory": false // Or true if you want a directory for each actions, effects, reducers,...
   }
-}
+  ...
 ```
 
 ## Usage
