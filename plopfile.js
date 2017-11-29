@@ -8,8 +8,8 @@ const pkgDir = require('pkg-dir');
 const fs = require('fs');
 
 const options = {
-  basePath: "ngrxGen.basePath",
-  separateDirectory: "ngrxGen.separateDirectory"
+  basePath: "ngxReduxor.basePath",
+  separateDirectory: "ngxReduxor.separateDirectory"
 };
 
 function validate(name, value) {
@@ -116,7 +116,7 @@ function createGenerator(plop) {
 
 module.exports = function (plop) {
   if(!get(pjson, options.basePath)) {
-    console.log('The option "ngrxGen.basePath" is not set inside your package.json, please update it'.red);
+    console.log('The option', options.basePath, 'is not set inside your package.json, please update it'.red);
     process.abort();
   }
   
