@@ -1,7 +1,7 @@
 {
-  "name": "ngrx-generator",
+  "name": "ngx-reduxor",
   "version": "1.5.0",
-  "description": "ngrx templates generator",
+  "description": "Angular+Redux: templates generator to scaffold easily and with consistency, all in a simple command",
   "main": "index.js",
   "scripts": {
     "plop": "plop"
@@ -13,21 +13,9 @@
     "ngrx/store",
     "ngrx/effects"
   ],
-  "author": "Netanel Basal",
-  "contributors": [
-    { "name": "Kevin Mathy" }
-  ],
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/NetanelBasal/ngrx-generator"
-  },
-  "ngrxGen": {
-    "basePath": "./store",
-    "separateDirectory": false
-  },
+  "author": "Kevin Mathy",
   "bin": {
-    "ngrx-gen": "index.js"
+    "ngx-reduxor": "index.js"
   },
   "dependencies": {
     "find-package-json": "^1.0.0",
