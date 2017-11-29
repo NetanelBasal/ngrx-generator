@@ -3,9 +3,6 @@
   "version": "1.5.2",
   "description": "Angular+Redux: templates generator to scaffold easily and with consistency, all in a simple command",
   "main": "index.js",
-  "scripts": {
-    "plop": "plop"
-  },
   "keywords": [
     "ngrx",
     "ngrx templates",
@@ -17,13 +14,15 @@
   "bin": {
     "ngx-reduxor": "index.js"
   },
+  "dependencies": {
+    "plop": "^1.8.0"
+  },
   "devDependencies": {
     "find-package-json": "^1.0.0",
     "lodash.camelcase": "^4.3.0",
     "lodash.get": "^4.4.2",
     "npm-run": "^4.1.2",
     "pkg-dir": "^2.0.0",
-    "plop": "^1.8.0",
     "shelljs": "^0.7.8"
   }
 }
