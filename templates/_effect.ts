@@ -9,17 +9,20 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class {{ properCase name }}Effects {
+  @Effect() get$;
+  
   constructor(
     private {{ camelCase name }}Service: {{ properCase name }}Service,
     private actions$: Actions
-  ) { }
+  ) {
+    this.get$ = this.actions$
+       .ofType({{ camelCase name }}.LOAD)
+       .switchMap(payload => this.{{ camelCase name }}Service.get()
+         // If successful, dispatch success action with result
+         .map(res => ({ type: {{ camelCase name }}.LOAD_SUCCESS, payload: res }))
+         // If request fails, dispatch failed action
+         .catch(() => Observable.of({ type: {{ camelCase name }}.LOAD_FAIL}))
+       );
+  }
 
-  @Effect() get$ = this.actions$
-      .ofType({{ camelCase name }}.LOAD)
-      .switchMap(payload => this.{{ camelCase name }}Service.get()
-        // If successful, dispatch success action with result
-        .map(res => ({ type: {{ camelCase name }}.LOAD_SUCCESS, payload: res }))
-        // If request fails, dispatch failed action
-        .catch(() => Observable.of({ type: {{ camelCase name }}.LOAD_FAIL}))
-      );
 }

@@ -1,6 +1,5 @@
 import "rxjs/add/observable/of";
 import "rxjs/add/observable/throw";
-import { EffectsRunner, EffectsTestingModule } from "@ngrx/effects/testing";
 import { fakeAsync, TestBed, tick } from "@angular/core/testing";
 import { {{properCase name}}Effects } from "{{position "effects"}}/{{kebabCase name}}.effects";
 import { {{properCase name}}Service } from "{{position "services"}}/{{kebabCase name}}.service";
@@ -10,9 +9,7 @@ describe('{{properCase name}}Effects', () => {
   let runner, {{camelCase name}}Effects, {{camelCase name}}Service;
 
   beforeEach(() => TestBed.configureTestingModule({
-    imports: [
-      EffectsTestingModule
-    ],
+    imports: [],
     providers: [
       {{properCase name}}Effects,
       {
@@ -23,7 +20,6 @@ describe('{{properCase name}}Effects', () => {
   }));
 
   beforeEach(() => {
-    runner = TestBed.get(EffectsRunner);
     {{camelCase name}}Effects = TestBed.get({{properCase name}}Effects);
     {{camelCase name}}Service = TestBed.get({{properCase name}}Service);
   });

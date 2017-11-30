@@ -1,0 +1,2 @@
+Find a way to easily import Effects
+Create a NgModule to import the store and have providers

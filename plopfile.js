@@ -22,7 +22,7 @@ const defaults = function (name) {
     prompts: [{
       type: 'input',
       name: 'name',
-      message: name + ' for?',
+      message: 'Name?',
       validate: validate.bind(this, name)
     }]
   }
@@ -82,7 +82,7 @@ const service = [{
 * Create file index.ts if doesn't exist
 */
 
-const indexAdd = [{
+const addIndex = [{
   type: "add",
   path: "{{ basePath }}/index.ts",
   templateFile: './templates/_index.ts'
@@ -98,14 +98,52 @@ const updateIndex = [{
 }]
 
 /*
+* Create file all-effects.ts if doesn't exist
+*/
+
+const addAllEffects = [{
+  type: 'add',
+  path: '{{ basePath }}/all-effects.ts',
+  templateFile: './templates/_all-effects.ts'
+}]
+
+/*
+ * Modify all-effects.ts with new effect generated
+ */
+
+ const updateAllEffects = [{
+   type: 'update all-effects',
+   path: '{{ basePath }}/all-effects.ts'
+ }]
+
+/*
+* Create store-reduxor.module.ts if doesn't exist
+*/
+const addStoreReduxorModule = [{
+  type: 'add',
+  path: '{{ basePath }}/store-reduxor.module.ts',
+  templateFile: './templates/_store-reduxor.module.ts'
+}]
+
+/*
+* Modify store-reduxor.module.ts with new generated files
+*/
+const updateStoreReduxorModule = [{
+  type: 'update store-reduxor',
+  path: '{{ basePath }}/store-reduxor.module.ts'
+}]
+
+/*
  * All generators
  */
 function createGenerator(plop) {
   let actionArray = [].concat(actions, reducer, effect, service)
-  fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'index.ts')) 
-    ? actionArray = actionArray.concat(updateIndex)
-    : actionArray = actionArray.concat(indexAdd);
-
+  const indexExists = fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'index.ts'));
+  const allEffectsExists = fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'all-effects.ts'));
+  const storeReduxorModuleExists = fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'store-reduxor.module.ts'));
+  actionArray = indexExists ? actionArray.concat(updateIndex) : actionArray.concat(addIndex);
+  actionArray = allEffectsExists ? actionArray.concat(updateAllEffects) : actionArray.concat(addAllEffects);
+  actionArray = storeReduxorModuleExists ? actionArray.concat(updateStoreReduxorModule) : actionArray.concat(addStoreReduxorModule);
   plop.setGenerator('Create',
     Object.assign({}, defaults('Whole'), {
       description: 'Generate Actions, Reducer, Service and Effect',
@@ -116,8 +154,8 @@ function createGenerator(plop) {
 
 module.exports = function (plop) {
   if(!get(pjson, options.basePath)) {
-    console.log('The option', options.basePath, 'is not set inside your package.json, please update it'.red);
-    process.abort();
+    console.log(`The option ${options.basePath} is not set inside your package.json, please update it`.red);
+    process.exit(1);
   }
   
   plop.addHelper('basePath', () => nodePath.resolve(get(pjson, options.basePath)));
@@ -138,6 +176,40 @@ module.exports = function (plop) {
         .replace(/(\/\/ -- IMPORT REDUCER --)/, plop.renderString(importFile, data))
         .replace(/(\/\/ -- IMPORT STATE --)/, plop.renderString(importState, data))
         .replace(/(\/\/ -- ADD REDUCER --)/, plop.renderString(addReducer, data));
+      fs.writeFileSync(fileDestPath, fileData);
+      return fileDestPath.replace(nodePath.resolve(plop.getDestBasePath()), '');
+    } catch(err) {
+      throw typeof err === 'string' ? err : err.message || JSON.stringify(err);
+    }
+  })
+
+  plop.setActionType('update all-effects', (data, config) => {
+    const makeDestPath = p => nodePath.resolve(plop.getDestBasePath(), p);
+    const fileDestPath = makeDestPath(plop.renderString(config.path));
+    try {
+      let fileData = fs.readFileSync(fileDestPath, 'utf-8');
+      const importFile = "$1\r\nimport {{ properCase name }}Effects from './{{ folder name 'effects' }}/{{ kebabCase name }}.effects';";
+      const listEffect = "$1\r\n\t{{ properCase name }}Effects,";
+      fileData = fileData
+        .replace(/(\/\/ -- IMPORT --)/, plop.renderString(importFile, data))
+        .replace(/(\/\/ -- LIST --)/, plop.renderString(listEffect, data))
+      fs.writeFileSync(fileDestPath, fileData);
+      return fileDestPath.replace(nodePath.resolve(plop.getDestBasePath()), '');
+    } catch(err) {
+      throw typeof err === 'string' ? err : err.message || JSON.stringify(err);
+    }
+  })
+
+  plop.setActionType('update store-reduxor', (data, config) => {
+    const makeDestPath = p => nodePath.resolve(plop.getDestBasePath(), p);
+    const fileDestPath = makeDestPath(plop.renderString(config.path));
+    try {
+      let fileData = fs.readFileSync(fileDestPath, 'utf-8');
+      const importFile = "$1\r\nimport { {{ properCase name }}Service } from './{{ folder name 'services' }}/{{ kebabCase name }}.service';";
+      const provider = "$1\r\n\t\t{{ properCase name }}Service,";
+      fileData = fileData
+        .replace(/(\/\/ -- IMPORT SERVICES --)/, plop.renderString(importFile, data))
+        .replace(/(\/\/ -- PROVIDERS --)/, plop.renderString(provider, data))
       fs.writeFileSync(fileDestPath, fileData);
       return fileDestPath.replace(nodePath.resolve(plop.getDestBasePath()), '');
     } catch(err) {

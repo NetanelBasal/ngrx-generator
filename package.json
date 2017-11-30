@@ -14,6 +14,14 @@
   "bin": {
     "ngx-reduxor": "index.js"
   },
+  "ngxReduxor": {
+    "basePath": "./store",
+    "separateDirectory": false
+  },
+  "peerDependencies": {
+    "@ngrx/store": "^4.0.0",
+    "@ngrx/effects": "^4.0.0"
+  },
   "dependencies": {
     "plop": "^1.8.0",
     "find-package-json": "^1.0.0",
