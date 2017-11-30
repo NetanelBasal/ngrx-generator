@@ -144,7 +144,7 @@ function createGenerator(plop) {
   actionArray = indexExists ? actionArray.concat(updateIndex) : actionArray.concat(addIndex);
   actionArray = allEffectsExists ? actionArray.concat(updateAllEffects) : actionArray.concat(addAllEffects);
   actionArray = storeReduxorModuleExists ? actionArray.concat(updateStoreReduxorModule) : actionArray.concat(addStoreReduxorModule);
-  plop.setGenerator('Create',
+  plop.setGenerator('New',
     Object.assign({}, defaults('Whole'), {
       description: 'Generate Actions, Reducer, Service and Effect',
       actions: actionArray
