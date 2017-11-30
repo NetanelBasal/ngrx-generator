@@ -9,7 +9,7 @@ import { {{ properCase name }}Service } from './{{ folder name "services" }}/{{ 
 @NgModule({
     imports: [
         StoreModule.forRoot(reducers, { metaReducers }),
-        EffectsModule.forRoot(AllEffects),
+        EffectsModule.forRoot([...AllEffects]),
     ],
     exports: [],
     providers: [

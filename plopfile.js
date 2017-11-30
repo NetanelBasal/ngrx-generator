@@ -188,7 +188,7 @@ module.exports = function (plop) {
     const fileDestPath = makeDestPath(plop.renderString(config.path));
     try {
       let fileData = fs.readFileSync(fileDestPath, 'utf-8');
-      const importFile = "$1\r\nimport {{ properCase name }}Effects from './{{ folder name 'effects' }}/{{ kebabCase name }}.effects';";
+      const importFile = "$1\r\nimport { {{ properCase name }}Effects } from './{{ folder name 'effects' }}/{{ kebabCase name }}.effects';";
       const listEffect = "$1\r\n\t{{ properCase name }}Effects,";
       fileData = fileData
         .replace(/(\/\/ -- IMPORT --)/, plop.renderString(importFile, data))
