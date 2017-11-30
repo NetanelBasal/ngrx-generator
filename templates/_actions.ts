@@ -1,29 +1,29 @@
 import { Action } from '@ngrx/store';
 
-export const LOAD =                 '[{{ titleCase name }}] Load';
-export const LOAD_SUCCESS =         '[{{ titleCase name }}] Load Success';
-export const LOAD_FAIL =            '[{{ titleCase name }}] Load Fail';
+export const GET =                 '[{{ titleCase name }}] Get';
+export const GET_SUCCESS =         '[{{ titleCase name }}] Get Success';
+export const GET_FAIL =            '[{{ titleCase name }}] Get Fail';
 
 /**
- * Load {{ titleCase name }} Actions
+ * Get {{ titleCase name }} Actions
  */
-export class LoadAction implements Action {
-  readonly type = LOAD;
+export class GetAction implements Action {
+  readonly type = GET;
 }
 
-export class LoadSuccessAction implements Action {
-  readonly type = LOAD_SUCCESS;
+export class GetSuccessAction implements Action {
+  readonly type = GET_SUCCESS;
 
-  constructor(public payload: any) { }
+  constructor(public payGet: any) { }
 }
 
-export class LoadFailAction implements Action {
-  readonly type = LOAD_FAIL;
+export class GetFailAction implements Action {
+  readonly type = GET_FAIL;
 
-  constructor(public payload: any) { }
+  constructor(public payGet: any) { }
 }
 
 export type Actions =
-  | LoadAction
-  | LoadSuccessAction
-  | LoadFailAction;
+  | GetAction
+  | GetSuccessAction
+  | GetFailAction;

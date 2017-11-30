@@ -14,14 +14,14 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: {{ camelCase name }}.Actions): State {
   switch (action.type) {
-    case {{ camelCase name }}.LOAD: {
+    case {{ camelCase name }}.GET: {
       return {
         ...state,
         loading: true
       }
     }
 
-    case {{ camelCase name }}.LOAD_SUCCESS: {
+    case {{ camelCase name }}.GET_SUCCESS: {
 
       return {
         ...state,
@@ -29,7 +29,7 @@ export function reducer(state = initialState, action: {{ camelCase name }}.Actio
       };
     }
 
-     case {{ camelCase name }}.LOAD_FAIL: {
+     case {{ camelCase name }}.GET_FAIL: {
 
       return {
         ...state,

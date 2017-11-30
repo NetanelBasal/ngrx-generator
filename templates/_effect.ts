@@ -16,12 +16,12 @@ export class {{ properCase name }}Effects {
     private actions$: Actions
   ) {
     this.get$ = this.actions$
-       .ofType({{ camelCase name }}.LOAD)
+       .ofType({{ camelCase name }}.GET)
        .switchMap(payload => this.{{ camelCase name }}Service.get()
          // If successful, dispatch success action with result
-         .map(res => ({ type: {{ camelCase name }}.LOAD_SUCCESS, payload: res }))
+         .map(res => ({ type: {{ camelCase name }}.GET_SUCCESS, payload: res }))
          // If request fails, dispatch failed action
-         .catch(() => Observable.of({ type: {{ camelCase name }}.LOAD_FAIL}))
+         .catch(() => Observable.of({ type: {{ camelCase name }}.GET_FAIL}))
        );
   }
 
