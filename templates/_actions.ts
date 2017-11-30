@@ -14,13 +14,13 @@ export class GetAction implements Action {
 export class GetSuccessAction implements Action {
   readonly type = GET_SUCCESS;
 
-  constructor(public payGet: any) { }
+  constructor(public payload: any) { }
 }
 
 export class GetFailAction implements Action {
   readonly type = GET_FAIL;
 
-  constructor(public payGet: any) { }
+  constructor(public payload: any) { }
 }
 
 export type Actions =

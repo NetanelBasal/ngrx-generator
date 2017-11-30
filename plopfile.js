@@ -170,7 +170,7 @@ module.exports = function (plop) {
     try {
       let fileData = fs.readFileSync(fileDestPath, 'utf-8');
       const importFile = "$1\r\nimport * as {{ camelCase name }} from './{{ folder name 'reducers' }}/{{ kebabCase name }}.reducer';";
-      const importState = "$1\r\n\t{{ camelCase name }}: {{ camelCase name }}.State,";
+      const importState = "$1\r\n\t{{ camelCase name }}: {{ camelCase name }}.State;";
       const addReducer = "$1\r\n\t{{ camelCase name }}: {{ camelCase name }}.reducer,";
       fileData = fileData
         .replace(/(\/\/ -- IMPORT REDUCER --)/, plop.renderString(importFile, data))
