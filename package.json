@@ -1,6 +1,6 @@
 {
   "name": "ngx-reduxor",
-  "version": "1.5.3",
+  "version": "1.6.0",
   "description": "Angular+Redux: templates generator to scaffold easily and with consistency, all in a simple command",
   "main": "index.js",
   "keywords": [
