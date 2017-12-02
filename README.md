@@ -1,8 +1,17 @@
-# ngx-reduxor
+# ngx-reduxor: save time by generating ngrx architecture with no effort!
 
 ## Intro
-Initially created by Netanel Basal (called ngrx-generator), I forked it to update it to my needs. But after some times, 
-and using the recommendations of the community, the generator has been improved. 
+If you are a user of @ngrx libs, check this generator! This will help you to save time by creating an architecture for your ngrx files. 
+
+Initially created by @NetanelBasal (called ngrx-generator). After some times, 
+and using the recommendations of the community, the generator has been improved.
+
+Now, it has the following features:
+* Create Actions, reducers, effects and services in one command! Just provide a name and the generator will do the rest
+* Provide a module to easily import all the reducers, effects and services in your Angular app.
+* Actions already created: Get, Create and Delete.
+* Use the latest HttpClient
+* Provide unit tests
 
 ## prerequisites
 
