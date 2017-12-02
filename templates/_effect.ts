@@ -12,6 +12,7 @@ import 'rxjs/add/operator/catch';
 export class {{ properCase name }}Effects {
   @Effect() get$;
   @Effect() create$;
+  @Effect() update$;
   @Effect() delete$;
   
   constructor(
@@ -32,6 +33,13 @@ export class {{ properCase name }}Effects {
       .switchMap((state: {{ camelCase name }}Actions.CreateAction) => this.{{ camelCase name}}Service.create(state.payload)
         .map(res => new {{ camelCase name }}Actions.CreateSuccessAction(res))
         .catch((err: HttpErrorResponse) => Observable.of(new {{ camelCase name }}Actions.CreateFailAction(err)))
+      );
+
+    this.update$ = this.actions$
+      .ofType({{ camelCase name }}Actions.UPDATE)
+      .switchMap((state: {{ camelCase name }}Actions.UpdateAction) => this.{{ camelCase name }}Service.update(state.payload)
+        .map(res => new {{ camelCase name }}Actions.UpdateSuccessAction(res))
+        .catch((err: HttpErrorResponse) => Observable.of(new {{ camelCase name }}Actions.UpdateFailAction(err)))
       );
 
     this.delete$ = this.actions$

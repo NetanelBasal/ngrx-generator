@@ -9,6 +9,10 @@ export const CREATE =              '[{{ titleCase name }}] Create';
 export const CREATE_SUCCESS =      '[{{ titleCase name }}] Create Success';
 export const CREATE_FAIL =         '[{{ titleCase name }}] Create Fail';
 
+export const EDIT =                '[{{ titleCase name }}] Edit';
+export const EDIT_SUCCESS =        '[{{ titleCase name }}] Edit Success';
+export const EDIT_FAIL =           '[{{ titleCase name }}] Edit Fail';
+
 export const DELETE =              '[{{ titleCase name }}] Delete';
 export const DELETE_SUCCESS =      '[{{ titleCase name }}] Delete Success';
 export const DELETE_FAIL =         '[{{ titleCase name }}] Delete Fail';
@@ -56,6 +60,27 @@ export class CreateFailAction implements Action {
 }
 
 /**
+ * Edit {{ titleCase name }} Actions
+ */
+export class EditAction implements Action {
+  readonly type = EDIT;
+
+  constructor(public payload: any) { }
+}
+
+export class EditSuccessAction implements Action {
+  readonly type = EDIT_SUCCESS;
+
+  constructor(public payload: any) { }
+}
+
+export class EditFailAction implements Action {
+  readonly type = EDIT_FAIL;
+
+  constructor(public error: HttpErrorResponse) { }
+}
+
+/**
  * Delete {{ titleCase name }} Actions
  */
 export class DeleteAction implements Action {
@@ -83,6 +108,9 @@ export type Actions =
   | CreateAction
   | CreateFailAction
   | CreateSuccessAction
+  | EditAction
+  | EditSuccessAction
+  | EditFailAction
   | DeleteAction
   | DeleteSuccessAction
   | DeleteFailAction;

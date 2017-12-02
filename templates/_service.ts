@@ -15,6 +15,10 @@ export class {{ properCase name }}Service {
     return this.http.post('https://api.com', { body: param });
   }
 
+  update(param: any): Observable<any> {
+    return this.http.patch('https://api.com', { body: param });
+  }
+
   delete(param: any): Observable<any> {
     return this.http.delete('https://api.com');
   }

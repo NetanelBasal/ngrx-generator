@@ -75,6 +75,33 @@ export function reducer(state = initialState, action: {{ camelCase name }}.Actio
       };
     }
 
+    case {{ camelCase name }}.UPDATE: {
+      return {
+        ...state,
+        loading: true,
+        error: null,
+        type: action.type
+      }
+    }
+
+    case {{ camelCase name }}.UPDATE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        type: action.type
+      };
+    }
+
+    case {{ camelCase name }}.UPDATE_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+        type: action.type
+      };
+    }
+
     case {{ camelCase name }}.DELETE: {
       return {
         ...state,
