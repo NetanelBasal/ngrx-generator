@@ -9,8 +9,8 @@ and using the recommendations of the community, the generator has been improved.
 Now, it has the following features:
 * Create Actions, reducers, effects and services in one command! Just provide a name and the generator will do the rest
 * Provide a module to easily import all the reducers, effects and services in your Angular app.
-* Actions already created: Get, Create and Delete.
-* Use the latest HttpClient
+* Generator available: CRUD actions.
+* Use the latest Angular HttpClient
 * Provide unit tests
 
 ## prerequisites
