@@ -9,6 +9,7 @@ const pkgDir = require('pkg-dir');
 const fs = require('fs');
 
 // Source code
+const basicGenerators = require('./src/basic-generators');
 const crudGenerators = require('./src/crud-generators');
 const modulesGenerators = require('./src/modules-generators');
 
@@ -43,7 +44,7 @@ function createGenerator(plop) {
             actions = actions.concat(crudGenerators.action, crudGenerators.reducer, crudGenerators.effect, crudGenerators.service);
             break;
           case 'Basic':
-            actions = actions.concat();
+            actions = actions.concat(basicGenerators.action, basicGenerators.reducer, basicGenerators.effect, basicGenerators.service);
             break;
         }
         const indexExists = fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'index.ts'));
