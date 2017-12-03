@@ -9,9 +9,9 @@ export const CREATE =              '[{{ titleCase name }}] Create';
 export const CREATE_SUCCESS =      '[{{ titleCase name }}] Create Success';
 export const CREATE_FAIL =         '[{{ titleCase name }}] Create Fail';
 
-export const EDIT =                '[{{ titleCase name }}] Edit';
-export const EDIT_SUCCESS =        '[{{ titleCase name }}] Edit Success';
-export const EDIT_FAIL =           '[{{ titleCase name }}] Edit Fail';
+export const UPDATE =              '[{{ titleCase name }}] Update';
+export const UPDATE_SUCCESS =      '[{{ titleCase name }}] Update Success';
+export const UPDATE_FAIL =         '[{{ titleCase name }}] Update Fail';
 
 export const DELETE =              '[{{ titleCase name }}] Delete';
 export const DELETE_SUCCESS =      '[{{ titleCase name }}] Delete Success';
@@ -60,22 +60,22 @@ export class CreateFailAction implements Action {
 }
 
 /**
- * Edit {{ titleCase name }} Actions
+ * Update {{ titleCase name }} Actions
  */
-export class EditAction implements Action {
-  readonly type = EDIT;
+export class UpdateAction implements Action {
+  readonly type = UPDATE;
 
   constructor(public payload: any) { }
 }
 
-export class EditSuccessAction implements Action {
-  readonly type = EDIT_SUCCESS;
+export class UpdateSuccessAction implements Action {
+  readonly type = UPDATE_SUCCESS;
 
   constructor(public payload: any) { }
 }
 
-export class EditFailAction implements Action {
-  readonly type = EDIT_FAIL;
+export class UpdateFailAction implements Action {
+  readonly type = UPDATE_FAIL;
 
   constructor(public error: HttpErrorResponse) { }
 }
@@ -108,9 +108,9 @@ export type Actions =
   | CreateAction
   | CreateFailAction
   | CreateSuccessAction
-  | EditAction
-  | EditSuccessAction
-  | EditFailAction
+  | UpdateAction
+  | UpdateSuccessAction
+  | UpdateFailAction
   | DeleteAction
   | DeleteSuccessAction
   | DeleteFailAction;

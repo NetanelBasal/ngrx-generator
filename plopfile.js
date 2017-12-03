@@ -1,3 +1,4 @@
+// Libraries
 const get = require('lodash.get');
 const camelCase = require('lodash.camelcase');
 const pkg = require('./package.json');
@@ -7,148 +8,54 @@ const nodePath = require('path');
 const pkgDir = require('pkg-dir');
 const fs = require('fs');
 
+// Source code
+const crudGenerators = require('./src/crud-generators');
+const modulesGenerators = require('./src/modules-generators');
+
 const options = {
   basePath: "ngxReduxor.basePath",
   separateDirectory: "ngxReduxor.separateDirectory"
 };
 
-function validate(name, value) {
-  return (/.+/).test(value) ? true : `A name is required`;
+function validate(name) {
+  return (/.+/).test(name) ? true : `A name is required`;
 }
 
-const defaults = function (name) {
-  return {
-    description: 'New ' + name,
-    prompts: [{
-      type: 'input',
-      name: 'name',
-      message: 'Name?',
-      validate: validate.bind(this, name)
-    }]
-  }
-}
-
-/*
- * Actions generator
- */
-const actions = [{
-  type: 'add',
-  path: '{{ basePath }}/{{ folder name "actions" }}/{{kebabCase name}}.actions.ts',
-  templateFile: './templates/_actions.ts'
-}];
-
-/*
- * Reducer generator
- */
-const reducer = [{
-    type: 'add',
-    path: '{{ basePath }}/{{ folder name "reducers" }}/{{kebabCase name}}.reducer.ts',
-    templateFile: './templates/_reducer.ts'
-  },
-  {
-    type: 'add',
-    path: '{{ basePath }}/{{ folder name "reducers"}}/{{kebabCase name}}.reducer.spec.ts',
-    templateFile: './templates/_reducer.spec.ts'
-  }
-]
-
-/*
- * Effect generator
- */
-const effect = [{
-  type: 'add',
-  path: '{{ basePath }}/{{ folder name "effects" }}/{{kebabCase name}}.effects.ts',
-  templateFile: './templates/_effect.ts'
-}, {
-  type: 'add',
-  path: '{{ basePath }}/{{ folder name "effects" }}/{{kebabCase name}}.effects.spec.ts',
-  templateFile: './templates/_effects.spec.ts'
-}];
-
-/*
- * Service generator
- */
-const service = [{
-  type: 'add',
-  path: '{{ basePath }}/{{ folder name "services" }}/{{kebabCase name}}.service.ts',
-  templateFile: './templates/_service.ts'
-}, {
-  type: 'add',
-  path: '{{ basePath }}/{{ folder name "services" }}/{{kebabCase name}}.service.spec.ts',
-  templateFile: './templates/_service.spec.ts'
-}];
-
-/*
-* Create file index.ts if doesn't exist
-*/
-
-const addIndex = [{
-  type: "add",
-  path: "{{ basePath }}/index.ts",
-  templateFile: './templates/_index.ts'
-}]
-
-/*
-* Modify index.ts with new generated files
-*/
-
-const updateIndex = [{
-  type: "update index",
-  path: "{{ basePath }}/index.ts"
-}]
-
-/*
-* Create file all-effects.ts if doesn't exist
-*/
-
-const addAllEffects = [{
-  type: 'add',
-  path: '{{ basePath }}/all-effects.ts',
-  templateFile: './templates/_all-effects.ts'
-}]
-
-/*
- * Modify all-effects.ts with new effect generated
- */
-
- const updateAllEffects = [{
-   type: 'update all-effects',
-   path: '{{ basePath }}/all-effects.ts'
- }]
-
-/*
-* Create store-reduxor.module.ts if doesn't exist
-*/
-const addStoreReduxorModule = [{
-  type: 'add',
-  path: '{{ basePath }}/store-reduxor.module.ts',
-  templateFile: './templates/_store-reduxor.module.ts'
-}]
-
-/*
-* Modify store-reduxor.module.ts with new generated files
-*/
-const updateStoreReduxorModule = [{
-  type: 'update store-reduxor',
-  path: '{{ basePath }}/store-reduxor.module.ts'
-}]
-
-/*
- * All generators
- */
 function createGenerator(plop) {
-  let actionArray = [].concat(actions, reducer, effect, service)
-  const indexExists = fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'index.ts'));
-  const allEffectsExists = fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'all-effects.ts'));
-  const storeReduxorModuleExists = fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'store-reduxor.module.ts'));
-  actionArray = indexExists ? actionArray.concat(updateIndex) : actionArray.concat(addIndex);
-  actionArray = allEffectsExists ? actionArray.concat(updateAllEffects) : actionArray.concat(addAllEffects);
-  actionArray = storeReduxorModuleExists ? actionArray.concat(updateStoreReduxorModule) : actionArray.concat(addStoreReduxorModule);
   plop.setGenerator('New',
-    Object.assign({}, defaults('Whole'), {
-      description: 'Generate Actions, Reducer, Service and Effect',
-      actions: actionArray
-    })
+    {
+      description: 'Generate Actions, Reducers, Services and Effect',
+      prompts: [{
+        type: 'input',
+        name: 'name',
+        message: 'Name for the new store object?',
+        validate: (name) => validate(name)
+      }, {
+        type: 'list',
+        name: 'store',
+        message: 'What kind of store do you want to generate?',
+        choices: ['CRUD', 'Basic', { name: 'Authentification', disabled: 'Unavailable at this time' }]
+      }],
+      actions: (data) => {
+        let actions = [];
+        switch(data.store) {
+          case 'CRUD':
+            actions = actions.concat(crudGenerators.action, crudGenerators.reducer, crudGenerators.effect, crudGenerators.service);
+            break;
+          case 'Basic':
+            actions = actions.concat();
+            break;
+        }
+        const indexExists = fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'index.ts'));
+        const allEffectsExists = fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'all-effects.ts'));
+        const storeReduxorModuleExists = fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'store-reduxor.module.ts'));
+        actions = indexExists ? actions.concat(modulesGenerators.updateIndex) : actions.concat(modulesGenerators.addIndex);
+        actions = allEffectsExists ? actions.concat(modulesGenerators.updateAllEffects) : actions.concat(modulesGenerators.addAllEffects);
+        actions = storeReduxorModuleExists ? actions.concat(modulesGenerators.updateStoreReduxorModule) : actions.concat(modulesGenerators.addStoreReduxorModule);
+
+        return actions;
+      }
+    }
   );
 }
 
@@ -165,6 +72,7 @@ module.exports = function (plop) {
   plop.addHelper('position', (name) => get(pjson, options.separateDirectory) ? '../' + name : '.');
   
   plop.setActionType('update index', (data, config) => {
+    console.log(data)
     const makeDestPath = p => nodePath.resolve(plop.getDestBasePath(), p);
     const fileDestPath = makeDestPath(plop.renderString(config.path));
     try {
@@ -218,6 +126,4 @@ module.exports = function (plop) {
   })
   
   createGenerator(plop);
-  // renameGenerator(plop);
-  // deleteGenerator(plop);
 };
