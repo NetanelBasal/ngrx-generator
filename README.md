@@ -10,6 +10,7 @@ Now, it has the following features:
 * Create Actions, reducers, effects and services in one command! Just provide a name and the generator will do the rest.
 * Provide a module to easily import all the reducers, effects and services in your Angular app.
 * Naming convention to prevent errors.
+* MetaReducer: non-invasive logger in development.
 * Generator available: CRUD actions, Basic actions.
 * Mainly inspired by the [ngrx styleguide](https://github.com/orizens/ngrx-styleguide)
 * Use the latest Angular HttpClient.
