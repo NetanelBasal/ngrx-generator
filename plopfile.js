@@ -47,7 +47,7 @@ function createGenerator(plop) {
             actions = actions.concat(basicGenerators.action, basicGenerators.reducer, basicGenerators.effect, basicGenerators.service);
             break;
         }
-        const indexExists = fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'index.ts'));
+        const indexExists = fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'app.store.ts'));
         const allEffectsExists = fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'all-effects.ts'));
         const storeReduxorModuleExists = fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'store-reduxor.module.ts'));
         actions = indexExists ? actions.concat(modulesGenerators.updateIndex) : actions.concat(modulesGenerators.addIndex);
@@ -72,7 +72,7 @@ module.exports = function (plop) {
   
   plop.addHelper('position', (name) => get(pjson, options.separateDirectory) ? '../' + name : '.');
   
-  plop.setActionType('update index', (data, config) => {
+  plop.setActionType('update app.store', (data, config) => {
     console.log(data)
     const makeDestPath = p => nodePath.resolve(plop.getDestBasePath(), p);
     const fileDestPath = makeDestPath(plop.renderString(config.path));

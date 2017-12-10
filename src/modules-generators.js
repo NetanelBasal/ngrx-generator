@@ -4,7 +4,7 @@ module.exports = {
     */
   addIndex: [{
     type: "add",
-    path: "{{ basePath }}/index.ts",
+    path: "{{ basePath }}/app.store.ts",
     templateFile: './templates/_index.ts'
   }],
   
@@ -12,8 +12,8 @@ module.exports = {
   * Modify index.ts with new generated files
   */
   updateIndex: [{
-    type: "update index",
-    path: "{{ basePath }}/index.ts"
+    type: "update app.store",
+    path: "{{ basePath }}/app.store.ts"
   }],
   
   /*
