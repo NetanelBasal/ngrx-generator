@@ -7,12 +7,13 @@ Initially created by @NetanelBasal (called ngrx-generator). After some times,
 and using the recommendations of the community, the generator has been improved.
 
 Now, it has the following features:
-* Create Actions, reducers, effects and services in one command! Just provide a name and the generator will do the rest
+* Create Actions, reducers, effects and services in one command! Just provide a name and the generator will do the rest.
 * Provide a module to easily import all the reducers, effects and services in your Angular app.
+* Naming convention to prevent errors.
 * Generator available: CRUD actions, Basic actions.
 * Mainly inspired by the [ngrx styleguide](https://github.com/orizens/ngrx-styleguide)
-* Use the latest Angular HttpClient
-* Provide unit tests
+* Use the latest Angular HttpClient.
+* Provide unit tests.
 
 ## prerequisites
 
@@ -51,14 +52,6 @@ in your package.json, add the following:
   ...
 ```
 
-## Usage
-
-```shell
-npm run ngx-reduxor
-```
-
-And then, follow the instructions... ;-)
-
 ## Import to your Angular app
 The first time you launch the generator, it creates a module called StoreReduxorModule.
 This module regroups all the reducers, effects and provided services created.
@@ -79,6 +72,15 @@ imports: [
 ]
 ...
 ```
+
+## Usage
+
+```shell
+npm run ngx-reduxor
+```
+
+And then, follow the instructions... ;-)
+Congratulations! You are now able to create huge and scalable app in Redux inside your Angular applications!
 
 ## Issues/Improvements
 Don't hesitate to send a PR or to contribute to this project. If you have suggestion or a problem, feel free to open an issue.
