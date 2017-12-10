@@ -23,7 +23,7 @@ export const DELETE_FAIL =         '[{{ titleCase name }}] Delete Fail';
 export class GetAction implements Action {
   readonly type = GET;
 
-  constructor(public paylaod: any) { }
+  constructor(public payload: any) { }
 }
 
 export class GetSuccessAction implements Action {
