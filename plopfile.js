@@ -35,7 +35,7 @@ function createGenerator(plop) {
         type: 'list',
         name: 'store',
         message: 'What kind of store do you want to generate?',
-        choices: ['CRUD', 'Basic', { name: 'Authentification', disabled: 'Unavailable at this time' }]
+        choices: ['CRUD', 'Basic']
       }],
       actions: (data) => {
         let actions = [];
