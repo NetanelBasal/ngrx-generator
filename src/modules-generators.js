@@ -5,7 +5,7 @@ module.exports = {
   addIndex: [{
     type: "add",
     path: "{{ basePath }}/app.store.ts",
-    templateFile: './templates/_index.ts'
+    templateFile: './templates/_app.store.ts'
   }],
   
   /*

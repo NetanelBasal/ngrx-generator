@@ -21,10 +21,13 @@ export const reducers: ActionReducerMap<State> = {
 /** For debug purpose */
 export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
     return function (state: State, action: any): State {
-        console.log('STORE state', state);
-        console.log('STORE action', action);
-
-        return reducer(state, action);
+        console.groupCollapsed(action.type);
+        const nextState = reducer(state, action);
+        console.log(`%c previous state`, `color: #9E9E9E; font-weight: bold`, state);
+        console.log(`%c action`, `color: #03A9F4; font-weight: bold`, action);
+        console.log(`%c next state`, `color: #4CAF50; font-weight: bold`, nextState);
+        console.groupEnd();
+        return nextState;
     };
 }
 
