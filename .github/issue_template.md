@@ -3,6 +3,8 @@
 - [ ] Bug
 - [ ] Suggestion
 
+### version + node environment
+
 ### Actual behavior
 
 ### Expected behavior
