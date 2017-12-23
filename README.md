@@ -85,3 +85,9 @@ Congratulations! You are now able to create huge and scalable app in Redux insid
 
 ## Issues/Improvements
 Don't hesitate to send a PR or to contribute to this project. If you have suggestion or a problem, feel free to open an issue.
+
+## [Wiki](https://github.com/kmathy/ngx-reduxor/wiki)
+A wiki is being written to provide a documentation of the architecture for each generator, some best practices to use in Ngrx or to facilitate your development. Everyone can contribute. This is also a place to put some kind messages about how you love this tool (A bit of softness in this brutal world)
+
+## Roadmap
+It is just the beginning! The idea is to provide a tool that can help you to manage easily your ngrx applications and also, create powerful actions. [See the next version](https://github.com/kmathy/ngx-reduxor/projects/1)
