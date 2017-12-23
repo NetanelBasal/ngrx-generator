@@ -1,12 +1,16 @@
 ## Issue Type
-- [ ] Feature request
-- [ ] Bug
-- [ ] Suggestion
+<!-- Remove the right comment -->
+<!-- ### Feature request -->
+<!-- ### Bug -->
+<!-- ### Suggestion -->
+***
+## version + node environment
 
-### version + node environment
+***
+## Actual behavior
 
-### Actual behavior
+***
+## Expected behavior
 
-### Expected behavior
-
-### example (repo, code,...)
+***
+## example (repo, code,...)
