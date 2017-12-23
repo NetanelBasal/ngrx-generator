@@ -15,7 +15,7 @@
     "ngx-reduxor": "index.js"
   },
   "ngxReduxor": {
-    "basePath": "./store",
+    "basePath": "./examples",
     "separateDirectory": false
   },
   "peerDependencies": {
