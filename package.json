@@ -15,12 +15,13 @@
     "ngx-reduxor": "index.js"
   },
   "ngxReduxor": {
-    "basePath": "./examples",
+    "basePath": "./store",
     "separateDirectory": false
   },
   "peerDependencies": {
-    "@ngrx/store": "^4.0.0",
-    "@ngrx/effects": "^4.0.0"
+    "@ngrx/store": "^4.1.1",
+    "@ngrx/effects": "^4.1.1",
+    "@ngrx/store-devtools": "^4.1.1"
   },
   "dependencies": {
     "plop": "^1.8.0",
