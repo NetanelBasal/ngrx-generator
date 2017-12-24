@@ -1,36 +1,29 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { Http, BaseRequestOptions, Response, ResponseOptions, RequestMethod } from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { {{ properCase name }}Service } from '{{position "services"}}/{{ lowerCase name }}.service';
+import { TestBed, getTestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { {{ properCase name }}Service } from '{{position "services"}}/{{ kebabCase name }}.service';
 
 describe('Service: {{ properCase name }}Service', () => {
-  let service: {{ properCase name }}Service = null;
-  let backend: MockBackend = null;
+
+  let injector: TestBed;
+  let service: {{ properCase name }}Service;
+  let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backendInstance, defaultOptions);
-          },
-          deps: [ MockBackend, BaseRequestOptions ]
-        },
-        {{ properCase name }}Service
-      ]
+      imports: [HttpClientTestingModule],
+      providers: [{{ properCase name }}Service]
     });
+    injector = getTestBed();
+    service = injector.get({{ properCase name }}Service);
+    httpMock = injector.get(HttpTestingController);
   });
 
-  beforeEach(inject([{{ properCase name }}Service, MockBackend], ({{ camelCase name }}Service: {{ properCase name }}Service, mockBackend: MockBackend) => {
-    service = {{ camelCase name }}Service;
-    backend = mockBackend;
-  }));
+  afterEach(() => {
+    httpMock.verify();
+  });
 
   // --------------------Example------------------------
-  
+
   // const data = {
   //   'title': 'Book Title',
   //   'author': 'John Smith',

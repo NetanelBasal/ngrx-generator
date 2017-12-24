@@ -1,3 +1,5 @@
-demo.gif
-demo2.gif
 .vscode
+node_modules
+store
+Todo.txt
+examples

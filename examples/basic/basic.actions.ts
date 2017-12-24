@@ -1,14 +1,16 @@
 import { Action } from '@ngrx/store';
 
-export const LOAD =                 '[{{ titleCase name }}] Load';
-export const LOAD_SUCCESS =         '[{{ titleCase name }}] Load Success';
-export const LOAD_FAIL =            '[{{ titleCase name }}] Load Fail';
+export const LOAD =                 '[Basic] Load';
+export const LOAD_SUCCESS =         '[Basic] Load Success';
+export const LOAD_FAIL =            '[Basic] Load Fail';
 
 /**
- * Load {{ titleCase name }} Actions
+ * Load Basic Actions
  */
 export class LoadAction implements Action {
   readonly type = LOAD;
+
+  constructor(public paylaod: any) { }
 }
 
 export class LoadSuccessAction implements Action {
@@ -20,7 +22,7 @@ export class LoadSuccessAction implements Action {
 export class LoadFailAction implements Action {
   readonly type = LOAD_FAIL;
 
-  constructor(public payload: any) { }
+  constructor(public error: Error) { }
 }
 
 export type Actions =

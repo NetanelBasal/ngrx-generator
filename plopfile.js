@@ -1,150 +1,130 @@
+// Libraries
 const get = require('lodash.get');
+const camelCase = require('lodash.camelcase');
 const pkg = require('./package.json');
 const finder = require('find-package-json');
 const pjson = finder().next().value;
 const nodePath = require('path');
 const pkgDir = require('pkg-dir');
+const fs = require('fs');
 
-function validate(name, value) {
-  if ((/.+/).test(value)) {
-    return true;
-  }
-  return name + ' is required';
+// Source code
+const basicGenerators = require('./src/basic-generators');
+const crudGenerators = require('./src/crud-generators');
+const modulesGenerators = require('./src/modules-generators');
+
+const options = {
+  basePath: "ngxReduxor.basePath",
+  separateDirectory: "ngxReduxor.separateDirectory"
+};
+
+function validate(name) {
+  return (/.+/).test(name) ? true : `A name is required`;
 }
 
-const defaults = function(name) { 
-
-  const p = [{
+function createGenerator(plop) {
+  plop.setGenerator('New',
+    {
+      description: 'Generate Actions, Reducers, Services and Effect',
+      prompts: [{
         type: 'input',
         name: 'name',
-        message: name + ' for?',
-        validate: validate.bind(this, name + ' name')
-      }];
-  return { 
-    description: 'New ' + name,
-    prompts:  p
-  }
-}
+        message: 'Name for the new store object?',
+        validate: (name) => validate(name)
+      }, {
+        type: 'list',
+        name: 'store',
+        message: 'What kind of store do you want to generate?',
+        choices: ['CRUD', 'Basic']
+      }],
+      actions: (data) => {
+        let actions = [];
+        switch(data.store) {
+          case 'CRUD':
+            actions = actions.concat(crudGenerators.action, crudGenerators.reducer, crudGenerators.effect, crudGenerators.service);
+            break;
+          case 'Basic':
+            actions = actions.concat(basicGenerators.action, basicGenerators.reducer, basicGenerators.effect, basicGenerators.service);
+            break;
+        }
+        const indexExists = fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'app.store.ts'));
+        const allEffectsExists = fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'all-effects.ts'));
+        const storeReduxorModuleExists = fs.existsSync(nodePath.resolve(get(pjson, options.basePath), 'store-reduxor.module.ts'));
+        actions = indexExists ? actions.concat(modulesGenerators.updateIndex) : actions.concat(modulesGenerators.addIndex);
+        actions = allEffectsExists ? actions.concat(modulesGenerators.updateAllEffects) : actions.concat(modulesGenerators.addAllEffects);
+        actions = storeReduxorModuleExists ? actions.concat(modulesGenerators.updateStoreReduxorModule) : actions.concat(modulesGenerators.addStoreReduxorModule);
 
-const actions = [
-  {
-    type: 'add',
-    path: '{{ pkg "ngrxGen.actions" "actions" }}/{{dashCase name}}.actions.ts',
-    templateFile: './templates/_actions.ts'
-  }
-];
-
-
-
-function actionGenerator(plop) {
-  plop.setGenerator('Action', 
-    Object.assign({}, defaults('Action'), {
-      actions: actions
-    })
-  );
-}
-
-const reducer = [
-  {
-    type: 'add',
-    path: '{{ pkg "ngrxGen.reducers" "reducers" }}/{{dashCase name}}.reducer.ts',
-    templateFile: './templates/_reducer.ts'
-  }, 
-  {
-    type: 'add',
-    path: '{{ pkg "ngrxGen.reducers" "reducers"}}/{{dashCase name}}.reducer.spec.ts',
-    templateFile: './templates/_reducer.spec.ts'
-  }
-]
-function reducerGenerator(plop) {
-   plop.setGenerator('Reducer', 
-    Object.assign({}, defaults('Reducer'), {
-      actions: reducer
-    })
-  );
-}
-
-const effect = [
-  {
-    type: 'add',
-    path: '{{ pkg "ngrxGen.effects" "effects" }}/{{dashCase name}}.effects.ts',
-    templateFile: './templates/_effect.ts'
-  }, {
-    type: 'add',
-    path: '{{ pkg "plop.effects" "effects" }}/{{dashCase name}}.effects.spec.ts',
-    templateFile: './templates/_effects.spec.ts'
-  }
-];
-
-function effectGenerator(plop) {
-   plop.setGenerator('Effect', 
-    Object.assign({}, defaults('Effect'), {
-      actions: effect
-    })
-  );
-}
-
-const service = [
-  {
-    type: 'add',
-    path: '{{ pkg "ngrxGen.services" "services" }}/{{dashCase name}}.service.ts',
-    templateFile: './templates/_service.ts'
-  }, {
-    type: 'add',
-    path: '{{ pkg "plop.services" "services" }}/{{dashCase name}}.service.spec.ts',
-    templateFile: './templates/_service.spec.ts'
-  }
-];
-
-function serviceGenerator(plop) {
-  plop.setGenerator('Service', 
-    Object.assign({}, defaults('Service'), {
-      actions: service
-    })
-  );
-}
-
-function wholeGenerator(plop) {
-    plop.setGenerator('The whole shebang', 
-      Object.assign({}, defaults('Whole'), {
-        description: 'Actions, Reducer, Service and Effect',
-        actions: [].concat(actions, reducer, effect, service)
-      })
+        return actions;
+      }
+    }
   );
 }
 
 module.exports = function (plop) {
-
-  plop.addHelper('pkg', (packageJSONPath, name) => {
+  if(!get(pjson, options.basePath)) {
+    console.log(`The option ${options.basePath} is not set inside your package.json, please update it`.red);
+    process.exit(1);
+  }
   
-    if(get(pjson, 'ngrxGen.basePath')) {
-      const basePath = nodePath.resolve(get(pjson, 'ngrxGen.basePath'));
-      return nodePath.resolve(pkgDir.sync(process.cwd()), get(pjson, 'ngrxGen.basePath'), name);
+  plop.addHelper('basePath', () => nodePath.resolve(get(pjson, options.basePath)));
+  
+  plop.addHelper('folder', (name, type) => get(pjson, options.separateDirectory) ? type : camelCase(name));
+  
+  plop.addHelper('position', (name) => get(pjson, options.separateDirectory) ? '../' + name : '.');
+  
+  plop.setActionType('update app.store', (data, config) => {
+    console.log(data)
+    const makeDestPath = p => nodePath.resolve(plop.getDestBasePath(), p);
+    const fileDestPath = makeDestPath(plop.renderString(config.path));
+    try {
+      let fileData = fs.readFileSync(fileDestPath, 'utf-8');
+      const importFile = "$1\r\nimport * as {{ camelCase name }} from './{{ folder name 'reducers' }}/{{ kebabCase name }}.reducer';";
+      const importState = "$1\r\n\t{{ camelCase name }}: {{ camelCase name }}.State;";
+      const addReducer = "$1\r\n\t{{ camelCase name }}: {{ camelCase name }}.reducer,";
+      fileData = fileData
+        .replace(/(\/\/ -- IMPORT REDUCER --)/, plop.renderString(importFile, data))
+        .replace(/(\/\/ -- IMPORT STATE --)/, plop.renderString(importState, data))
+        .replace(/(\/\/ -- ADD REDUCER --)/, plop.renderString(addReducer, data));
+      fs.writeFileSync(fileDestPath, fileData);
+      return fileDestPath.replace(nodePath.resolve(plop.getDestBasePath()), '');
+    } catch(err) {
+      throw typeof err === 'string' ? err : err.message || JSON.stringify(err);
     }
+  })
 
-   if(get(pjson, 'ngrxGen.seperateDirectory')) {
-     return nodePath.resolve(process.cwd(), name);
-   }
-
-    if (get(pjson, packageJSONPath)) {
-      return nodePath.resolve(process.cwd(), get(pjson, packageJSONPath))
+  plop.setActionType('update all-effects', (data, config) => {
+    const makeDestPath = p => nodePath.resolve(plop.getDestBasePath(), p);
+    const fileDestPath = makeDestPath(plop.renderString(config.path));
+    try {
+      let fileData = fs.readFileSync(fileDestPath, 'utf-8');
+      const importFile = "$1\r\nimport { {{ properCase name }}Effects } from './{{ folder name 'effects' }}/{{ kebabCase name }}.effects';";
+      const listEffect = "$1\r\n\t{{ properCase name }}Effects,";
+      fileData = fileData
+        .replace(/(\/\/ -- IMPORT --)/, plop.renderString(importFile, data))
+        .replace(/(\/\/ -- LIST --)/, plop.renderString(listEffect, data))
+      fs.writeFileSync(fileDestPath, fileData);
+      return fileDestPath.replace(nodePath.resolve(plop.getDestBasePath()), '');
+    } catch(err) {
+      throw typeof err === 'string' ? err : err.message || JSON.stringify(err);
     }
+  })
 
-    return nodePath.resolve(process.cwd(), '.');
-  });
-
-  plop.addHelper('position', function (name) {
-    if(get(pjson, 'ngrxGen.seperateDirectory')) {
-      return '../' + name;
+  plop.setActionType('update store-reduxor', (data, config) => {
+    const makeDestPath = p => nodePath.resolve(plop.getDestBasePath(), p);
+    const fileDestPath = makeDestPath(plop.renderString(config.path));
+    try {
+      let fileData = fs.readFileSync(fileDestPath, 'utf-8');
+      const importFile = "$1\r\nimport { {{ properCase name }}Service } from './{{ folder name 'services' }}/{{ kebabCase name }}.service';";
+      const provider = "$1\r\n\t\t{{ properCase name }}Service,";
+      fileData = fileData
+        .replace(/(\/\/ -- IMPORT SERVICES --)/, plop.renderString(importFile, data))
+        .replace(/(\/\/ -- PROVIDERS --)/, plop.renderString(provider, data))
+      fs.writeFileSync(fileDestPath, fileData);
+      return fileDestPath.replace(nodePath.resolve(plop.getDestBasePath()), '');
+    } catch(err) {
+      throw typeof err === 'string' ? err : err.message || JSON.stringify(err);
     }
-    return '.';
-  });
-
-  wholeGenerator(plop);
-  actionGenerator(plop);
-  reducerGenerator(plop);
-  effectGenerator(plop);
-  serviceGenerator(plop);
-
-
+  })
+  
+  createGenerator(plop);
 };

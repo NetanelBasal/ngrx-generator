@@ -1,11 +1,8 @@
 {
-  "name": "ngrx-generator",
-  "version": "1.1.0",
-  "description": "ngrx templates generator",
+  "name": "ngx-reduxor",
+  "version": "1.0.1",
+  "description": "Angular+Redux: templates generator to scaffold easily and with consistency, all in a simple command",
   "main": "index.js",
-  "scripts": {
-    "plop": "plop"
-  },
   "keywords": [
     "ngrx",
     "ngrx templates",
@@ -13,21 +10,26 @@
     "ngrx/store",
     "ngrx/effects"
   ],
-  "author": "Netanel Basal",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/NetanelBasal/ngrx-generator"
-  },
+  "author": "Kevin Mathy",
   "bin": {
-    "ngrx-gen": "index.js"
+    "ngx-reduxor": "index.js"
+  },
+  "ngxReduxor": {
+    "basePath": "./store",
+    "separateDirectory": false
+  },
+  "peerDependencies": {
+    "@ngrx/store": "^4.1.1",
+    "@ngrx/effects": "^4.1.1",
+    "@ngrx/store-devtools": "^4.1.1"
   },
   "dependencies": {
+    "plop": "^1.8.0",
     "find-package-json": "^1.0.0",
+    "lodash.camelcase": "^4.3.0",
     "lodash.get": "^4.4.2",
     "npm-run": "^4.1.2",
     "pkg-dir": "^2.0.0",
-    "plop": "^1.8.0",
     "shelljs": "^0.7.8"
   }
 }
