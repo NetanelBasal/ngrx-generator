@@ -7,7 +7,7 @@ export interface State {
   result: string[];
   error: HttpErrorResponse;
   type: string;
-}
+};
 
 export const initialState: State = {
   loading: false,
@@ -15,11 +15,11 @@ export const initialState: State = {
   result: [],
   error: null,
   type: ''
-}
+};
 
 export function reducer(state = initialState, action: {{ camelCase name }}.Actions): State {
   switch (action.type) {
-    case {{ camelCase name }}.GET: {
+    case {{ camelCase name }}.GET_{{ constantCase name }}: {
       return {
         ...state,
         loading: true,
@@ -28,7 +28,7 @@ export function reducer(state = initialState, action: {{ camelCase name }}.Actio
       }
     }
 
-    case {{ camelCase name }}.GET_SUCCESS: {
+    case {{ camelCase name }}.GET_{{ constantCase name }}_SUCCESS: {
       state.result = action.payload;
       return {
         ...state,
@@ -38,7 +38,7 @@ export function reducer(state = initialState, action: {{ camelCase name }}.Actio
       };
     }
 
-    case {{ camelCase name }}.GET_FAIL: {
+    case {{ camelCase name }}.GET_{{ constantCase name }}_FAIL: {
       return {
         ...state,
         loading: false,
@@ -47,7 +47,7 @@ export function reducer(state = initialState, action: {{ camelCase name }}.Actio
       };
     }
 
-    case {{ camelCase name }}.CREATE: {
+    case {{ camelCase name }}.CREATE_{{ constantCase name }}: {
       return {
         ...state,
         loading: true,
@@ -56,7 +56,7 @@ export function reducer(state = initialState, action: {{ camelCase name }}.Actio
       }
     }
 
-    case {{ camelCase name }}.CREATE_SUCCESS: {
+    case {{ camelCase name }}.CREATE_{{ constantCase name }}_SUCCESS: {
       state.result = [...state.result, action.payload];
       return {
         ...state,
@@ -66,7 +66,7 @@ export function reducer(state = initialState, action: {{ camelCase name }}.Actio
       };
     }
 
-    case {{ camelCase name }}.CREATE_FAIL: {
+    case {{ camelCase name }}.CREATE_{{ constantCase name }}_FAIL: {
       return {
         ...state,
         loading: false,
@@ -75,7 +75,7 @@ export function reducer(state = initialState, action: {{ camelCase name }}.Actio
       };
     }
 
-    case {{ camelCase name }}.UPDATE: {
+    case {{ camelCase name }}.UPDATE_{{ constantCase name }}: {
       return {
         ...state,
         loading: true,
@@ -84,7 +84,7 @@ export function reducer(state = initialState, action: {{ camelCase name }}.Actio
       }
     }
 
-    case {{ camelCase name }}.UPDATE_SUCCESS: {
+    case {{ camelCase name }}.UPDATE_{{ constantCase name }}_SUCCESS: {
       return {
         ...state,
         loading: false,
@@ -93,7 +93,7 @@ export function reducer(state = initialState, action: {{ camelCase name }}.Actio
       };
     }
 
-    case {{ camelCase name }}.UPDATE_FAIL: {
+    case {{ camelCase name }}.UPDATE_{{ constantCase name }}_FAIL: {
       return {
         ...state,
         loading: false,
@@ -102,7 +102,7 @@ export function reducer(state = initialState, action: {{ camelCase name }}.Actio
       };
     }
 
-    case {{ camelCase name }}.DELETE: {
+    case {{ camelCase name }}.DELETE_{{ constantCase name }}: {
       return {
         ...state,
         loading: true,
@@ -111,7 +111,7 @@ export function reducer(state = initialState, action: {{ camelCase name }}.Actio
       }
     }
 
-    case {{ camelCase name }}.DELETE_SUCCESS: {
+    case {{ camelCase name }}.DELETE_{{ constantCase name }}_SUCCESS: {
       state.result.splice(state.result.findIndex(action.payload), 1);
       return {
         ...state,
@@ -121,7 +121,7 @@ export function reducer(state = initialState, action: {{ camelCase name }}.Actio
       };
     }
 
-    case {{ camelCase name }}.DELETE_FAIL: {
+    case {{ camelCase name }}.DELETE_{{ constantCase name }}_FAIL: {
       return {
         ...state,
         loading: false,

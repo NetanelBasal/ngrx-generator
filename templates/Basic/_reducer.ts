@@ -6,7 +6,7 @@ export interface State {
   result: string[];
   error: Error;
   type: string;
-}
+};
 
 export const initialState: State = {
   loading: false,
@@ -14,11 +14,11 @@ export const initialState: State = {
   result: [],
   error: null,
   type: ''
-}
+};
 
 export function reducer(state = initialState, action: {{ camelCase name }}.Actions): State {
   switch (action.type) {
-    case {{ camelCase name }}.LOAD: {
+    case {{ camelCase name }}.LOAD_{{ constantCase name }}: {
       return {
         ...state,
         loading: true,
@@ -27,7 +27,7 @@ export function reducer(state = initialState, action: {{ camelCase name }}.Actio
       }
     }
 
-    case {{ camelCase name }}.LOAD_SUCCESS: {
+    case {{ camelCase name }}.LOAD_{{ constantCase name }}_SUCCESS: {
       state.result = action.payload;
       return {
         ...state,
@@ -37,7 +37,7 @@ export function reducer(state = initialState, action: {{ camelCase name }}.Actio
       };
     }
 
-    case {{ camelCase name }}.LOAD_FAIL: {
+    case {{ camelCase name }}.LOAD_{{ constantCase name }}_FAIL: {
       return {
         ...state,
         loading: false,

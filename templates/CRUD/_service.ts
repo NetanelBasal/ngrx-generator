@@ -7,19 +7,19 @@ export class {{ properCase name }}Service {
 
   constructor(private http: HttpClient) { }
 
-  get(): Observable<any> {
+  get{{ titleCase name }}(): Observable<any> {
     return this.http.get('https://api.com');
   }
 
-  create(param: any): Observable<any> {
+  create{{ titleCase name }}(param: any): Observable<any> {
     return this.http.post('https://api.com', { body: param });
   }
 
-  update(param: any): Observable<any> {
+  update{{ titleCase name }}(param: any): Observable<any> {
     return this.http.patch('https://api.com', { body: param });
   }
 
-  delete(param: any): Observable<any> {
+  delete{{ titleCase name }}(param: any): Observable<any> {
     return this.http.delete('https://api.com');
   }
 

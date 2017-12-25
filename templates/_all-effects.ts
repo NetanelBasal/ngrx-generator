@@ -4,4 +4,4 @@ import { {{ properCase name }}Effects } from './{{ folder name "effects" }}/{{ k
 export const AllEffects = [
     // -- LIST --
     {{ properCase name }}Effects
-]
+];

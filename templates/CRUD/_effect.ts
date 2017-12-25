@@ -20,33 +20,33 @@ export class {{ properCase name }}Effects {
     private actions$: Actions
   ) {
     this.get$ = this.actions$
-      .ofType({{ camelCase name }}Actions.GET)
-      .switchMap((state: {{ camelCase name }}Actions.GetAction) => this.{{ camelCase name }}Service.get()
+      .ofType({{ camelCase name }}Actions.GET_{{ constantCase name }})
+      .switchMap((state: {{ camelCase name }}Actions.Get{{ titleCase name }}Action) => this.{{ camelCase name }}Service.get{{ titleCase name }}()
         // If successful, dispatch success action with result
-        .map(res => new {{ camelCase name }}Actions.GetSuccessAction(res))
+        .map(res => new {{ camelCase name }}Actions.Get{{ titleCase name }}SuccessAction(res))
         // If request fails, dispatch failed action
-        .catch((err: HttpErrorResponse) => Observable.of(new {{ camelCase name }}Actions.GetFailAction(err)))
+        .catch((err: HttpErrorResponse) => Observable.of(new {{ camelCase name }}Actions.Get{{ titleCase name }}FailAction(err)))
       );
 
     this.create$ = this.actions$
-      .ofType({{ camelCase name }}Actions.CREATE)
-      .switchMap((state: {{ camelCase name }}Actions.CreateAction) => this.{{ camelCase name}}Service.create(state.payload)
-        .map(res => new {{ camelCase name }}Actions.CreateSuccessAction(res))
-        .catch((err: HttpErrorResponse) => Observable.of(new {{ camelCase name }}Actions.CreateFailAction(err)))
+      .ofType({{ camelCase name }}Actions.CREATE_{{ constantCase name }})
+      .switchMap((state: {{ camelCase name }}Actions.Create{{ titleCase name }}Action) => this.{{ camelCase name}}Service.create{{ titleCase name }}(state.payload)
+        .map(res => new {{ camelCase name }}Actions.Create{{ titleCase name }}SuccessAction(res))
+        .catch((err: HttpErrorResponse) => Observable.of(new {{ camelCase name }}Actions.Create{{ titleCase name }}FailAction(err)))
       );
 
     this.update$ = this.actions$
-      .ofType({{ camelCase name }}Actions.UPDATE)
-      .switchMap((state: {{ camelCase name }}Actions.UpdateAction) => this.{{ camelCase name }}Service.update(state.payload)
-        .map(res => new {{ camelCase name }}Actions.UpdateSuccessAction(res))
-        .catch((err: HttpErrorResponse) => Observable.of(new {{ camelCase name }}Actions.UpdateFailAction(err)))
+      .ofType({{ camelCase name }}Actions.UPDATE_{{ constantCase name }})
+      .switchMap((state: {{ camelCase name }}Actions.Update{{ titleCase name }}Action) => this.{{ camelCase name }}Service.update{{ titleCase name }}(state.payload)
+        .map(res => new {{ camelCase name }}Actions.Update{{ titleCase name }}SuccessAction(res))
+        .catch((err: HttpErrorResponse) => Observable.of(new {{ camelCase name }}Actions.Update{{ titleCase name }}FailAction(err)))
       );
 
     this.delete$ = this.actions$
-      .ofType({{ camelCase name }}Actions.DELETE)
-      .switchMap((state: {{ camelCase name }}Actions.DeleteAction) => this.{{ camelCase name }}Service.delete(state.payload)
-        .map(res => new {{ camelCase name }}Actions.DeleteSuccessAction(res))
-        .catch((err: HttpErrorResponse) => Observable.of(new {{ camelCase name }}Actions.DeleteFailAction(err)))
+      .ofType({{ camelCase name }}Actions.DELETE_{{ constantCase name }})
+      .switchMap((state: {{ camelCase name }}Actions.Delete{{ titleCase name }}Action) => this.{{ camelCase name }}Service.delete{{ titleCase name }}(state.payload)
+        .map(res => new {{ camelCase name }}Actions.Delete{{ titleCase name }}SuccessAction(res))
+        .catch((err: HttpErrorResponse) => Observable.of(new {{ camelCase name }}Actions.Delete{{ titleCase name }}FailAction(err)))
       );
   }
 

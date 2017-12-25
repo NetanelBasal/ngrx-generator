@@ -7,7 +7,7 @@ export class {{ properCase name }}Service {
 
   constructor(private http: HttpClient) { }
 
-  load(): Observable<any> {
+  load{{ titleCase name }}(): Observable<any> {
     return this.http.get('https://api.com');
   }
 }

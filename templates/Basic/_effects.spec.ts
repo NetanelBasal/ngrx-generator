@@ -26,11 +26,11 @@ describe('{{properCase name}}Effects', () => {
 
   describe('{{camelCase name}}$', () => {
 
-    it('should return a LOAD_SUCCESS action, on success', function () {
+    it('should return a LOAD_{{ constantCase name }}_SUCCESS action, on success', function () {
 
     });
 
-    it('should return a LOAD_FAIL action, on error', function () {
+    it('should return a LOAD_{{ constantCase name }}_FAIL action, on error', function () {
 
     });
 

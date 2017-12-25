@@ -16,12 +16,12 @@ export class {{ properCase name }}Effects {
     private actions$: Actions
   ) {
     this.load$ = this.actions$
-      .ofType({{ camelCase name }}Actions.LOAD)
-      .switchMap((state: {{ camelCase name }}Actions.LoadAction) => this.{{ camelCase name }}Service.load()
+      .ofType({{ camelCase name }}Actions.LOAD_{{ constantCase name }})
+      .switchMap((state: {{ camelCase name }}Actions.Load{{ titleCase name }}Action) => this.{{ camelCase name }}Service.load{{ titleCase name }}()
         // If successful, dispatch success action with result
-        .map(res => new {{ camelCase name }}Actions.LoadSuccessAction(res))
+        .map(res => new {{ camelCase name }}Actions.Load{{ titleCase name }}SuccessAction(res))
         // If request fails, dispatch failed action
-        .catch((err: Error) => Observable.of(new {{ camelCase name }}Actions.LoadFailAction(err)))
+        .catch((err: Error) => Observable.of(new {{ camelCase name }}Actions.Load{{ titleCase name }}FailAction(err)))
       );
   }
 
